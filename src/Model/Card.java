@@ -10,7 +10,7 @@ public class Card {
 
     // MODIFIES: this
     // EFFECTS: sets up a card that has a value and a suit
-    public Card (int value, int suit) {
+    public Card(int value, int suit) {
         this.value = value;
         this.suit = suit;
         this.flipped = 0;

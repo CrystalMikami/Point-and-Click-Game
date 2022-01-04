@@ -13,8 +13,17 @@ public class CardTests {
 
     @BeforeEach
     public void setup() {
-        testCardOne = new Card(1 , 1);
+        testCardOne = new Card(1, 1);
         testCardTwo = new Card(3, 4);
+    }
+
+    @Test
+    public void testSetFlipped() {
+        assertEquals(0, testCardOne.getFlipped());
+
+        testCardOne.setFlipped(1);
+
+        assertEquals(1, testCardOne.getFlipped());
     }
 
     @Test
@@ -27,5 +36,14 @@ public class CardTests {
     public void testGetSuit() {
         assertEquals(1, testCardOne.getSuit());
         assertEquals(4, testCardTwo.getSuit());
+    }
+
+    @Test
+    public void testGetFlipped() {
+        assertEquals(0, testCardOne.getFlipped());
+
+        testCardTwo.setFlipped(1);
+
+        assertEquals(1, testCardTwo.getFlipped());
     }
 }
