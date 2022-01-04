@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.List;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTests {
     private Deck testDeckOne;
@@ -20,26 +20,22 @@ public class DeckTests {
         testDeckTwo = new Deck();
     }
 
-    // Deck must not be null
-    public boolean cardRemoved(Deck tests) {
-        return !tests.getCardList().contains(tests.getDrawnCard());
-    }
-
     @Test
     public void testDrawCardOne() {
-        testDeckOne.drawCard();
-        assertTrue(cardRemoved(testDeckOne));
-
+        assertFalse(testDeckOne.getCardList().contains(testDeckOne.drawCard()));
     }
 
     @Test
     public void testDrawCardTwo() {
-        testDeckTwo.drawCard();
-        assertTrue(cardRemoved(testDeckTwo));
+        assertFalse(testDeckTwo.getCardList().contains(testDeckTwo.drawCard()));
     }
 
     @Test
     public void testRefreshDeckOne() {
         testDeckOne.refreshDeck();
+        testDeckTwo.drawCard();
+        testDeckTwo.drawCard();
+        testDeckTwo.refreshDeck();
+        assertEquals(testDeckOne.getCardList().size(), testDeckTwo.getCardList().size());
     }
 }

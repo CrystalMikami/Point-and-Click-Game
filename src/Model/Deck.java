@@ -8,7 +8,6 @@ import java.util.Random;
 public class Deck {
     private ArrayList<Card> cardList = new ArrayList<>();
     private Card currCard;
-    private Card drawnCard;
     private int drawnCardPos;
 
     // Initializes a full deck
@@ -22,10 +21,6 @@ public class Deck {
     }
 
     public List<Card> getCardList() { return cardList; }
-    public Card getDrawnCard() {
-        drawnCard = cardList.get(drawnCardPos);
-        return drawnCard;
-    }
 
     // Draws a card from the available deck, the chosen card
     // is removed from the deck
