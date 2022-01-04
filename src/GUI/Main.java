@@ -1,9 +1,9 @@
-package Main;
+package GUI;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI {
+public class Main {
 
     public static void main(String[] args) {
         runGUI();
@@ -36,7 +36,7 @@ public class GUI {
 
         JButton jButton = new JButton(myIcon);
         jButton.setEnabled(true);
-        jButton.setVisible(true);
+        jButton.setVisible(false);
 
         myFrame.add(jButton);
         myFrame.add(jButton1);
@@ -45,6 +45,19 @@ public class GUI {
         myFrame.add(jButton4);
 
         myFrame.setLayout(new GridLayout(2,2,5,5));
+
+        JFrame theOtherFrame = new JFrame();
+        theOtherFrame.setVisible(true);
+        theOtherFrame.setSize(1600, 900);
+        theOtherFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        JButton theOneButton = new JButton();
+        theOneButton.setEnabled(true);
+        theOneButton.setVisible(true);
+
+        theOtherFrame.add(theOneButton);
+
+        theOtherFrame.setLayout(new GridLayout(2,2,5,5));
     }
 
 }
