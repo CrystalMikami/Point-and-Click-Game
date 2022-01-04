@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DeckTests {
     private Deck testDeckOne;
     private Deck testDeckTwo;
-
     @BeforeEach
     public void setup() {
         testDeckOne = new Deck();
