@@ -31,14 +31,12 @@ public class GUI {
         jButton4.setEnabled(true);
         jButton4.setVisible(true);
 
-        ImageIcon myIcon = new ImageIcon("myCat.jpg");
-
-        JButton jButton = new JButton(myIcon);
+        JButton jButton = new JButton(new ImageIcon("myCat.jpg"));
         jButton.setEnabled(true);
         jButton.setVisible(true);
-        jButton.setIcon(myIcon);
 
-        myFrame.add(jButton);
+
+        myFrame.getContentPane().add(jButton);
         myFrame.add(jButton1);
         myFrame.add(jButton2);
         myFrame.add(jButton3);
