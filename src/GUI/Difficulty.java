@@ -57,6 +57,7 @@ public class Difficulty implements ActionListener {
 
     JPanel linePanel;
 
+    // EFFECTS: initializes all the Java swing elements for the difficulty screen
     public Difficulty() {
         chooseDiffText = new JLabel("Choose your difficulty");
         chooseDiffText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,6 +106,8 @@ public class Difficulty implements ActionListener {
         linePanel.setBackground(Color.red);
     }
 
+    // MODIFIES: frame
+    // EFFECTS: adding the Java swing elements defined in the constructor to frame
     public void addJElements(JFrame frame) {
         frame.add(chooseDiffText);
         frame.add(imageContainerEasy);
@@ -118,10 +121,19 @@ public class Difficulty implements ActionListener {
         frame.add(linePanel);
     }
 
+    // MODIFIES: frame
+    // EFFECTS: removing the Java swing elements defined in the constructor from frame
     public void removeJElements(JFrame frame) {
+        frame.remove(chooseDiffText);
+        frame.remove(imageContainerEasy);
+        frame.remove(imageContainerMedium);
+        frame.remove(imageContainerHard);
         frame.remove(easyButton);
         frame.remove(mediumButton);
         frame.remove(hardButton);
+        frame.remove(menuButton);
+        frame.remove(soundButton);
+        frame.remove(linePanel);
     }
 
     @Override
