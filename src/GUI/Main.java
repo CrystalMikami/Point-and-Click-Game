@@ -8,6 +8,7 @@ public class Main {
     public static final int FRAME_HEIGHT = 900;
     private static Difficulty diff;
     private static Menu menu;
+    private static Instructions instructions;
 
     public static void main(String[] args) {
         runGUI();
@@ -26,5 +27,8 @@ public class Main {
 
 //        diff = new Difficulty();
 //        diff.addJElements(myFrame);
+
+        instructions = new Instructions();
+        instructions.addJElements(myFrame);
     }
 }
