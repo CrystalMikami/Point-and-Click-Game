@@ -7,6 +7,7 @@ public class Main {
     public static final int FRAME_WIDTH = 1600;
     public static final int FRAME_HEIGHT = 900;
     private static Difficulty diff;
+    private static Menu menu;
 
     public static void main(String[] args) {
         runGUI();
@@ -20,6 +21,10 @@ public class Main {
         myFrame.setLayout(null);
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        diff = new Difficulty();
+//        menu = new Menu();
+//        menu.addJElements(myFrame);
+
+//        diff = new Difficulty();
+//        diff.addJElements(myFrame);
     }
 }
