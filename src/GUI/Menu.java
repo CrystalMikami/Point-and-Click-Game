@@ -2,13 +2,11 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static GUI.Main.FRAME_HEIGHT;
 import static GUI.Main.FRAME_WIDTH;
 
-public class Menu implements ActionListener {
+public class Menu {
 
     // game title
     private JLabel title;
@@ -77,10 +75,5 @@ public class Menu implements ActionListener {
         buttonsPanel.remove(playButton);
         buttonsPanel.remove(instructionsButton);
         frame.remove(soundButton);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

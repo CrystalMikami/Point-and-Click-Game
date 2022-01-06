@@ -22,13 +22,13 @@ public class Main {
         myFrame.setLayout(null);
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-//        menu = new Menu();
-//        menu.addJElements(myFrame);
+        menu = new Menu();
+        menu.addJElements(myFrame);
 
 //        diff = new Difficulty();
 //        diff.addJElements(myFrame);
-
-        instructions = new Instructions();
-        instructions.addJElements(myFrame);
+//
+//        instructions = new Instructions();
+//        instructions.addJElements(myFrame);
     }
 }
