@@ -23,7 +23,9 @@ public class Card {
     }
 
     // EFFECTS: returns a card's value
-    public int getValue() { return value; }
+    public int getValue() {
+        return value;
+    }
 
     // EFFECTS: returns a card's suit
     public int getSuit() {
