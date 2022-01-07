@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GUI {
     /** Constants **/
@@ -40,6 +42,9 @@ public class GUI {
     /** Global Elements **/
     // Sound Button
     private JButton soundButton;
+    private int soundMute = 0;
+    private ImageIcon soundOn = new ImageIcon("Images/myCat.JPG");
+    private ImageIcon soundOff = new ImageIcon("Images/ChillCat.JPG");
 
     /** Menu **/
     JPanel menuContainer;
@@ -74,11 +79,15 @@ public class GUI {
     JButton menuButton;
 
     /** Instructions **/
-    JPanel instructionsPanel;
+    JPanel instructionsContainer;
     //Instructions Buttons
     JButton back;
     JButton menu;
     JButton next;
+    private Map<ImageIcon, String> instructionList = new LinkedHashMap<>();
+    private ImageIcon[] instructionImages;
+    private String[] instructionText;
+    private int instructionPage = 0;
 
     // Instructions Fonts
     Font instructionsTitleFont = new Font("Times New Roman", Font.BOLD, 50);
@@ -103,15 +112,22 @@ public class GUI {
 
         // Sound Button
         soundButton = new JButton();
-        soundButton.setIcon(new ImageIcon("Images/myCat.JPG"));
+        soundButton.setIcon(soundOn);
         soundButton.setBounds(SOUND_BUTTON_HGAP, SOUND_BUTTON_VGAP, SOUND_BUTTON_WIDTH, SOUND_BUTTON_HEIGHT);
         soundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (soundMute == 0) {
+                    // Turn sound off
+                    soundMute = 1;
+                    soundButton.setIcon(soundOff);
+                } else {
+                    // Turn sound on
+                    soundMute = 0;
+                    soundButton.setIcon(soundOn);
+                }
             }
         });
-        myFrame.add(soundButton);
 
         /** Menu **/
         menuTitle = new JLabel("Matching Card Game");
@@ -130,6 +146,7 @@ public class GUI {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                diffContainer.add(soundButton);
                 cardLayout.show(cards, "difficulty");
             }
         });
@@ -139,17 +156,18 @@ public class GUI {
         instructionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                instructionsContainer.add(soundButton);
                 cardLayout.show(cards, "instructions");
             }
         });
 
         menuContainer = new JPanel(null);
         menuContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        menuContainer.add(soundButton);
         menuContainer.add(menuTitle);
         menuContainer.add(menuButtonsPanel);
         menuButtonsPanel.add(playButton);
         menuButtonsPanel.add(instructionsButton);
-        //myFrame.add(menuContainer);
 
         cards.add(menuContainer, "menu");
 
@@ -212,6 +230,7 @@ public class GUI {
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                menuContainer.add(soundButton);
                 cardLayout.show(cards, "menu");
             }
         });
@@ -231,25 +250,6 @@ public class GUI {
         cards.add(diffContainer, "difficulty");
 
         /** Instructions **/
-        // Buttons
-        back = new JButton("Back");
-        back.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
-        back.setFont(instructionsButtonsFont);
-
-        menu = new JButton("Menu");
-        menu.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
-        menu.setFont(instructionsButtonsFont);
-        menu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cards, "menu");
-            }
-        });
-
-        next = new JButton("Next");
-        next.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
-        next.setFont(instructionsButtonsFont);
-
         // Title
         JLabel titleLabel = new JLabel("Instructions");
         titleLabel.setFont(instructionsTitleFont);
@@ -259,9 +259,16 @@ public class GUI {
         title.setVisible(true);
         title.setBounds(INSTRUCTIONS_MARGIN, 0, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 6);
 
+        // Instructions Content
+        instructionList.put(new ImageIcon("Images/myCat.jpg"), "Teach me how to play this game senpai <3");
+        instructionList.put(new ImageIcon("Images/ChillCat.jpg"), "OwO I AM THE MASTER NOW");
+
+        instructionImages = instructionList.keySet().toArray(new ImageIcon[0]);
+        instructionText = instructionList.values().toArray(new String[0]);
+
         // Content Image
-        ImageIcon picIcon = new ImageIcon("Images/myCat.jpg");
-        JLabel pic = new JLabel(picIcon);
+        JLabel pic = new JLabel();
+        pic.setIcon(instructionImages[0]);
 
         img = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0));
         img.add(pic);
@@ -269,7 +276,8 @@ public class GUI {
         img.setBounds(INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 6, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, 7 * FRAME_HEIGHT / 12);
 
         // Content Text
-        JLabel instructionsText = new JLabel("Teach me how to play this game senpai <3");
+        JLabel instructionsText = new JLabel();
+        instructionsText.setText(instructionText[0]);
         instructionsText.setFont(contentFont);
         instructionsText.setForeground(new Color(230, 230, 230));
         instructionsText.setBackground(new Color(0,0,0, 200));
@@ -281,6 +289,57 @@ public class GUI {
         text.setBounds(INSTRUCTIONS_MARGIN, 9 * FRAME_HEIGHT / 12, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 12);
 
         // Buttons
+        back = new JButton("Back");
+        back.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
+        back.setFont(instructionsButtonsFont);
+        back.setEnabled(false);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (instructionPage - 1 <= 0) {
+                    back.setEnabled(false);
+                }
+                pic.setIcon(instructionImages[--instructionPage]);
+                instructionsText.setText(instructionText[instructionPage]);
+                if (instructionPage < instructionText.length) {
+                    next.setEnabled(true);
+                }
+            }
+        });
+
+        menu = new JButton("Menu");
+        menu.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
+        menu.setFont(instructionsButtonsFont);
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuContainer.add(soundButton);
+                cardLayout.show(cards, "menu");
+                instructionPage = 0;
+                pic.setIcon(instructionImages[0]);
+                instructionsText.setText(instructionText[0]);
+                back.setEnabled(false);
+                next.setEnabled(true);
+            }
+        });
+
+        next = new JButton("Next");
+        next.setPreferredSize(new Dimension(INSTRUCTIONS_BUTTON_WIDTH, INSTRUCTIONS_BUTTON_HEIGHT));
+        next.setFont(instructionsButtonsFont);
+        next.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (instructionPage >= instructionText.length - 2) {
+                    next.setEnabled(false);
+                }
+                pic.setIcon(instructionImages[++instructionPage]);
+                instructionsText.setText(instructionText[instructionPage]);
+                if (instructionPage > 0) {
+                    back.setEnabled(true);
+                }
+            }
+        });
+
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, INSTRUCTIONS_BUTTON_MARGIN);
 
         buttons = new JPanel();
@@ -293,16 +352,15 @@ public class GUI {
         buttons.add(next);
         buttons.setBounds(INSTRUCTIONS_MARGIN, 5 * FRAME_HEIGHT / 6, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 6);
 
-        instructionsPanel = new JPanel(null);
-        instructionsPanel.setVisible(true);
-        instructionsPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        instructionsPanel.add(title);
-        instructionsPanel.add(img);
-        instructionsPanel.add(text);
-        instructionsPanel.add(buttons);
-//        myFrame.add(instructionsPanel);
+        instructionsContainer = new JPanel(null);
+        instructionsContainer.setVisible(true);
+        instructionsContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        instructionsContainer.add(title);
+        instructionsContainer.add(img);
+        instructionsContainer.add(text);
+        instructionsContainer.add(buttons);
 
-        cards.add(instructionsPanel, "instructions");
+        cards.add(instructionsContainer, "instructions");
 
         Container pane = myFrame.getContentPane();
         pane.add(cards, BorderLayout.CENTER);
@@ -313,8 +371,6 @@ public class GUI {
         //text.setBackground(Color.green);
         //buttons.setBackground(Color.cyan);
         // end of instructions
-
-//        myFrame.add(instructionsPanel);
     }
 }
 
