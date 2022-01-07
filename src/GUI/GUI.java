@@ -113,7 +113,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    File file = new File("Music/ncmCozy.wav");
+                    File file = new File("Music/ncmcozy.wav");
                     AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioStream);
