@@ -1,9 +1,13 @@
 package GUI;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GUI {
     /** Constants **/
@@ -108,7 +112,21 @@ public class GUI {
         soundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    File file = new File("Music/ncmCozy.wav");
+                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioStream);
+                    clip.start();
+                } catch (FileNotFoundException f) {
+                    System.out.println("file not found");
+                } catch (IOException f) {
+                    System.out.println("io");
+                } catch (UnsupportedAudioFileException f) {
+                    System.out.println("unsupported audio");
+                } catch (LineUnavailableException f) {
+                    System.out.println("line unavailable");
+                }
             }
         });
         myFrame.add(soundButton);
@@ -315,6 +333,7 @@ public class GUI {
         // end of instructions
 
 //        myFrame.add(instructionsPanel);
+
     }
 }
 
