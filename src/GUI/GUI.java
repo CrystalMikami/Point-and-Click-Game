@@ -50,6 +50,7 @@ public class GUI {
     private File file;
     private AudioInputStream audioStream;
     private Clip clip;
+    private FloatControl volume;
     private ImageIcon soundOn = new ImageIcon("Images/myCat.JPG");
     private ImageIcon soundOff = new ImageIcon("Images/ChillCat.JPG");
 
@@ -144,12 +145,14 @@ public class GUI {
                     // Turn sound off
                     soundMute = 1;
                     soundButton.setIcon(soundOff);
-                    clip.stop();
+                    volume = (FloatControl) clip.getControl((FloatControl.Type.MASTER_GAIN));
+                    volume.setValue(-50.0f);
                 } else {
                     // Turn sound on
                     soundMute = 0;
                     soundButton.setIcon(soundOn);
                     clip.start();
+                    volume.setValue(0.0f);
                 }
             }
         });
