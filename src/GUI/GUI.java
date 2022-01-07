@@ -1,11 +1,15 @@
 package GUI;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GUI {
     /** Constants **/
@@ -125,6 +129,21 @@ public class GUI {
                     // Turn sound on
                     soundMute = 0;
                     soundButton.setIcon(soundOn);
+                }
+                try {
+                    File file = new File("Music/ncmcozy.wav");
+                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioStream);
+                    clip.start();
+                } catch (FileNotFoundException f) {
+                    System.out.println("file not found");
+                } catch (IOException f) {
+                    System.out.println("io");
+                } catch (UnsupportedAudioFileException f) {
+                    System.out.println("unsupported audio");
+                } catch (LineUnavailableException f) {
+                    System.out.println("line unavailable");
                 }
             }
         });
