@@ -109,24 +109,25 @@ public class GUI {
         soundButton = new JButton();
         soundButton.setIcon(new ImageIcon("Images/myCat.JPG"));
         soundButton.setBounds(SOUND_BUTTON_HGAP, SOUND_BUTTON_VGAP, SOUND_BUTTON_WIDTH, SOUND_BUTTON_HEIGHT);
+        try {
+            File file = new File("Music/ncmcozy.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (FileNotFoundException f) {
+            System.out.println("file not found");
+        } catch (IOException f) {
+            System.out.println("io");
+        } catch (UnsupportedAudioFileException f) {
+            System.out.println("unsupported audio");
+        } catch (LineUnavailableException f) {
+            System.out.println("line unavailable");
+        }
         soundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    File file = new File("Music/ncmcozy.wav");
-                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioStream);
-                    clip.start();
-                } catch (FileNotFoundException f) {
-                    System.out.println("file not found");
-                } catch (IOException f) {
-                    System.out.println("io");
-                } catch (UnsupportedAudioFileException f) {
-                    System.out.println("unsupported audio");
-                } catch (LineUnavailableException f) {
-                    System.out.println("line unavailable");
-                }
+
             }
         });
         myFrame.add(soundButton);
