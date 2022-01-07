@@ -47,6 +47,9 @@ public class GUI {
     // Sound Button
     private JButton soundButton;
     private int soundMute = 0;
+    private File file;
+    private AudioInputStream audioStream;
+    private Clip clip;
     private ImageIcon soundOn = new ImageIcon("Images/myCat.JPG");
     private ImageIcon soundOff = new ImageIcon("Images/ChillCat.JPG");
 
@@ -118,6 +121,22 @@ public class GUI {
         soundButton = new JButton();
         soundButton.setIcon(soundOn);
         soundButton.setBounds(SOUND_BUTTON_HGAP, SOUND_BUTTON_VGAP, SOUND_BUTTON_WIDTH, SOUND_BUTTON_HEIGHT);
+        try {
+            file = new File("Music/ncmcozy.wav");
+            audioStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (FileNotFoundException f) {
+            System.out.println("file not found");
+        } catch (IOException f) {
+            System.out.println("io");
+        } catch (UnsupportedAudioFileException f) {
+            System.out.println("unsupported audio");
+        } catch (LineUnavailableException f) {
+            System.out.println("line unavailable");
+        }
         soundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,25 +144,12 @@ public class GUI {
                     // Turn sound off
                     soundMute = 1;
                     soundButton.setIcon(soundOff);
+                    clip.stop();
                 } else {
                     // Turn sound on
                     soundMute = 0;
                     soundButton.setIcon(soundOn);
-                }
-                try {
-                    File file = new File("Music/ncmcozy.wav");
-                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioStream);
                     clip.start();
-                } catch (FileNotFoundException f) {
-                    System.out.println("file not found");
-                } catch (IOException f) {
-                    System.out.println("io");
-                } catch (UnsupportedAudioFileException f) {
-                    System.out.println("unsupported audio");
-                } catch (LineUnavailableException f) {
-                    System.out.println("line unavailable");
                 }
             }
         });
