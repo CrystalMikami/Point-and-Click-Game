@@ -362,6 +362,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuContainer.add(soundButton);
+                game.refreshGame();
                 cardLayout.show(cards, "menu");
             }
         });
@@ -446,7 +447,6 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuContainer.add(soundButton);
-                game.refreshGame();
                 cardLayout.show(cards, "menu");
             }
         });

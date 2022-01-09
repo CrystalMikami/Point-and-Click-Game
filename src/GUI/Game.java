@@ -3,7 +3,6 @@ package GUI;
 import Model.Board;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Game {
     private JPanel gamePanel;
@@ -59,7 +58,6 @@ public class Game {
         }
         gamePanel.invalidate();
         gamePanel.revalidate();
-        gamePanel.repaint();
     }
 
     public void setDifficulty(int difficulty) {
