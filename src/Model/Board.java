@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 // Represents the board
+// TODO: Remove countRow, countColumn variables
+//       They are only used to test! (Check BoardTest class)
 public class Board {
     public int difficulty; // 0 = easy, 1 = medium, 2 = hard
     private Card[][] board;
