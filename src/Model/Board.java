@@ -1,6 +1,5 @@
 package Model;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,16 +23,19 @@ public class Board {
                 this.difficulty = 0;
                 countRow = 2;
                 countColumn = 4;
+                break;
             case 1:
                 board = new Card[8][4]; // 32 Cards
                 this.difficulty = 1;
                 countRow = 4;
                 countColumn = 8;
+                break;
             case 2:
-                board = new Card[12][6]; // 72 Cards
+                board = new Card[14][5]; // 72 Cards
                 this.difficulty = 2;
-                countRow = 6;
-                countColumn = 12;
+                countRow = 5;
+                countColumn = 14;
+                break;
             default:
         }
     }
@@ -66,16 +68,19 @@ public class Board {
                 this.difficulty = 0;
                 countRow = 2;
                 countColumn = 4;
+                break;
             case 1:
                 board = new Card[8][4]; // 32 Cards
                 this.difficulty = 1;
                 countRow = 4;
                 countColumn = 8;
+                break;
             case 2:
-                board = new Card[12][6]; // 72 Cards
+                board = new Card[14][5]; // 72 Cards
                 this.difficulty = 2;
-                countRow = 6;
-                countColumn = 12;
+                countRow = 5;
+                countColumn = 14;
+                break;
             default:
         }
     }

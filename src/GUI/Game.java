@@ -1,13 +1,9 @@
 package GUI;
 
 import Model.Board;
-import Model.Card;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static GUI.GUI.FRAME_WIDTH;
-import static GUI.GUI.FRAME_HEIGHT;
 
 public class Game {
     private JPanel gamePanel;
@@ -76,18 +72,21 @@ public class Game {
                 vGap = 25;
                 cardWidth = 160;
                 cardHeight = 300;
+                break;
             case 1:
                 cardButtons = new JButton[8][4];
                 hGap = 104;
                 vGap = 15;
                 cardWidth = 83;
                 cardHeight = 150;
+                break;
             case 2:
                 cardButtons = new JButton[14][5];
                 hGap = 50;
                 vGap = 37;
                 cardWidth = 60;
                 cardHeight = 90;
+                break;
             default:
         }
     }

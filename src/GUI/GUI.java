@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GUI {
-    /** Constants **/
+    /**
+     * Constants
+     **/
     //Global Constants
     public static final int FRAME_WIDTH = 1600;
     public static final int FRAME_HEIGHT = 900;
@@ -25,14 +27,14 @@ public class GUI {
     private static final int MENU_TITLE_WIDTH = 500;
     private static final int MENU_TEXT_HEIGHT = 200;
     private final int MENU_BUTTON_WIDTH = 300;
-    private final int MENU_BUTTON_HEIGHT = MENU_BUTTON_WIDTH/4;
+    private final int MENU_BUTTON_HEIGHT = MENU_BUTTON_WIDTH / 4;
 
     // Difficulty Constants
     private final int DIFF_TEXT_WIDTH = 500;
     private final int DIFF_TEXT_HEIGHT = 64;
     private final int DIFF_TEXT_Y_POS = 100;
     private final int DIFF_BUTTON_WIDTH = 350;
-    private final int DIFF_BUTTON_HEIGHT = DIFF_BUTTON_WIDTH/4;
+    private final int DIFF_BUTTON_HEIGHT = DIFF_BUTTON_WIDTH / 4;
     private final int DIFF_IMAGE_WIDTH = 350;
     private final int DIFF_IMAGE_HEIGHT = DIFF_IMAGE_WIDTH;
     private final int DIFF_IMAGE_Y_POS = 205;
@@ -47,7 +49,9 @@ public class GUI {
     private final int GAME_MENU_TEXT_WIDTH = 300;
     private final int GAME_MENU_TEXT_HEIGHT = SOUND_BUTTON_HEIGHT;
 
-    /** Global Elements **/
+    /**
+     * Global Elements
+     **/
     // Sound Button
     private JButton soundButton;
     private int soundMute = 0;
@@ -58,7 +62,9 @@ public class GUI {
     private ImageIcon soundOn = new ImageIcon("Images/myCat.JPG");
     private ImageIcon soundOff = new ImageIcon("Images/ChillCat.JPG");
 
-    /** Menu **/
+    /**
+     * Menu
+     **/
     JPanel menuContainer;
     // Buttons below title: play, instructions
     private JButton playButton;
@@ -72,8 +78,9 @@ public class GUI {
     private JLabel menuTitle;
     Font menuTitleFont = new Font("Times New Roman", Font.BOLD, 80);
 
-    /** Difficulty **/
-    private int difficulty;
+    /**
+     * Difficulty
+     **/
     JPanel diffContainer;
     JLabel chooseDiffText;
 
@@ -89,7 +96,9 @@ public class GUI {
     JButton hardButton;
     JButton menuButton;
 
-    /** Instructions **/
+    /**
+     * Instructions
+     **/
     JPanel instructionsContainer;
     //Instructions Buttons
     JButton back;
@@ -115,6 +124,7 @@ public class GUI {
     Game game;
     JPanel gamePanel;
     JPanel gameContainer;
+    JPanel gameBanner;
     JButton gameMenu;
 
     public GUI() {
@@ -229,7 +239,7 @@ public class GUI {
         JLabel pic = new JLabel();
         pic.setIcon(instructionImages[0]);
 
-        img = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0));
+        img = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         img.add(pic);
         img.setVisible(true);
         img.setBounds(INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 6, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, 7 * FRAME_HEIGHT / 12);
@@ -239,12 +249,12 @@ public class GUI {
         instructionsText.setText(instructionText[0]);
         instructionsText.setFont(contentFont);
         instructionsText.setForeground(new Color(230, 230, 230));
-        instructionsText.setBackground(new Color(0,0,0, 200));
+        instructionsText.setBackground(new Color(0, 0, 0, 200));
 
-        text = new JPanel(new FlowLayout(FlowLayout.LEFT, INSTRUCTIONS_BUTTON_MARGIN,INSTRUCTIONS_BUTTON_MARGIN / 2));
+        text = new JPanel(new FlowLayout(FlowLayout.LEFT, INSTRUCTIONS_BUTTON_MARGIN, INSTRUCTIONS_BUTTON_MARGIN / 2));
         text.add(instructionsText);
         text.setVisible(true);
-        text.setBackground(new Color(0,0,0, 200));
+        text.setBackground(new Color(0, 0, 0, 200));
         text.setBounds(INSTRUCTIONS_MARGIN, 9 * FRAME_HEIGHT / 12, FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN, FRAME_HEIGHT / 12);
 
         // Buttons
@@ -331,7 +341,16 @@ public class GUI {
         /** Game **/
         gamePanel = new JPanel(null);
         gamePanel.setVisible(true);
-// TODO: Set game panel size, add banner at top
+        gamePanel.setBounds(0, FRAME_HEIGHT / 4, FRAME_WIDTH, 3 * FRAME_HEIGHT / 4);
+
+        // Banner
+        JLabel banner = new JLabel();
+        banner.setIcon(new ImageIcon("Images/ChillCat.jpg"));
+
+        gameBanner = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        gameBanner.add(banner);
+        gameBanner.setVisible(true);
+        gameBanner.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT/4);
 
         game = new Game(gamePanel, cardLayout);
 
@@ -385,7 +404,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
-                difficulty = 0;
+                gameContainer.add(gameBanner);
+                game.setDifficulty(0);
+                game.fillBoard();
                 cardLayout.show(cards, "game");
             }
         });
@@ -397,7 +418,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
-                difficulty = 1;
+                gameContainer.add(gameBanner);
+                game.setDifficulty(1);
+                game.fillBoard();
                 cardLayout.show(cards, "game");
             }
         });
@@ -409,7 +432,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
-                difficulty = 2;
+                gameContainer.add(gameBanner);
+                game.setDifficulty(2);
+                game.fillBoard();
                 cardLayout.show(cards, "game");
             }
         });
@@ -422,6 +447,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 menuContainer.add(soundButton);
                 cardLayout.show(cards, "menu");
+                game.refreshBoard();
             }
         });
 
