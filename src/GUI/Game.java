@@ -10,10 +10,13 @@ import java.awt.event.ActionListener;
 
 public class Game {
     private CardLayout cardLayout;
-    private JPanel cards;
     private JPanel gamePanel;
+    private JPanel menuContainer;
+    private JPanel cards;
     private JButton[][] cardButtons;
+    private JButton soundButton;
     private Board board;
+
     private int difficulty = 0;
     private int hGap;
     private int vGap;
@@ -25,10 +28,12 @@ public class Game {
     private int cardTwoColumn = -1;
     private int cardTwoRow = -1;
 
-    public Game(JPanel gamePanel, JPanel cards, CardLayout cardLayout) {
+    public Game(JPanel gamePanel, JPanel menuContainer, JPanel cards, CardLayout cardLayout, JButton soundButton) {
         this.gamePanel = gamePanel;
+        this.menuContainer = menuContainer;
         this.cards = cards;
         this.cardLayout = cardLayout;
+        this.soundButton = soundButton;
         board = new Board(difficulty, cardWidth, cardHeight);
         board.addCards();
     }
@@ -60,6 +65,13 @@ public class Game {
                             cardTwoColumn = (int) cardButton.getClientProperty("column");
                             cardTwoRow = (int) cardButton.getClientProperty("row");
                             matchedCards(cardOneColumn, cardOneRow, cardTwoColumn, cardTwoRow);
+
+                            // TODO: add delay + flip second card
+//                            try {
+//                                Thread.sleep(1000);
+//                            } catch (InterruptedException ex) {
+//                                // empty; no exceptions expected
+//                            }
                         }
                     }
                 });
@@ -144,6 +156,7 @@ public class Game {
             this.cardPairsRemaining--;
             if (this.cardPairsRemaining == 0) {
                 refreshGame();
+                menuContainer.add(soundButton);
                 cardLayout.show(cards, "menu"); // TODO: This should be results screen
             }
         } else {
