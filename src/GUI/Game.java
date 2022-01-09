@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Game {
     private JPanel gamePanel;
-    private CardLayout cardLayout;
     private int difficulty = 0;
     private Board board;
     private JButton[][] cardButtons;
@@ -16,14 +15,16 @@ public class Game {
     private int cardWidth = 0;
     private int cardHeight = 0;
 
-    public Game(JPanel gamePanel, CardLayout cardLayout) {
+    public Game(JPanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.cardLayout = cardLayout;
         board = new Board(difficulty, cardWidth, cardHeight);
         board.addCards();
     }
 
     public void fillBoard() {
+        board.refreshBoard(difficulty, cardWidth, cardHeight);
+        board.addCards();
+
         // Going through the COLUMNS
         for (int i = 0; i < board.getWidth(); i++) {
             // Going through the ROWS
@@ -31,7 +32,7 @@ public class Game {
                 JButton cardButton = new JButton();
                 cardButtons[i][j] = cardButton;
                 cardButton.setIcon(board.getCardAtPos(i, j).getImg());
-                cardButton.setBounds(hGap * (1 + i) + (i * cardWidth), vGap * (1 + j) + (j * cardHeight) + 225, cardWidth, cardHeight);
+                cardButton.setBounds(hGap * (1 + i) + (i * cardWidth), vGap * (1 + j) + (j * cardHeight), cardWidth, cardHeight);
                 gamePanel.add(cardButton);
 
                 /** cardButton.addActionListener(new ActionListener() {
@@ -47,7 +48,7 @@ public class Game {
 
     }
 
-    public void refreshBoard() {
+    public void refreshGame() {
         // Going through the COLUMNS
         for (int i = 0; i < board.getWidth(); i++) {
             // Going through the ROWS
@@ -56,7 +57,9 @@ public class Game {
                 gamePanel.remove(cardButton);
             }
         }
-        board.refreshBoard(difficulty, cardWidth, cardHeight);
+        gamePanel.invalidate();
+        gamePanel.revalidate();
+        gamePanel.repaint();
     }
 
     public void setDifficulty(int difficulty) {

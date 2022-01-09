@@ -352,7 +352,7 @@ public class GUI {
         gameBanner.setVisible(true);
         gameBanner.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT/4);
 
-        game = new Game(gamePanel, cardLayout);
+        game = new Game(gamePanel);
 
         gameMenu = new JButton("Back to Menu");
         gameMenu.setVisible(true);
@@ -446,8 +446,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuContainer.add(soundButton);
+                game.refreshGame();
                 cardLayout.show(cards, "menu");
-                game.refreshBoard();
             }
         });
 
