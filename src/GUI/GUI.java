@@ -352,7 +352,7 @@ public class GUI {
         gameBanner.setVisible(true);
         gameBanner.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT/4);
 
-        game = new Game(gamePanel);
+        game = new Game(gamePanel, cards, cardLayout);
 
         gameMenu = new JButton("Back to Menu");
         gameMenu.setVisible(true);

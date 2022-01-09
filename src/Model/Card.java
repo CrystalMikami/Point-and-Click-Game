@@ -9,17 +9,19 @@ public class Card {
     private int suit; // Range from 1 to 4; 1 is club, 2 is diamond
                       //                  ; 3 is heart, 4 is spades
     private int flipped; // flipped = 1
-    private ImageIcon img;
+    private ImageIcon cardFront;
+    private ImageIcon cardBack = new ImageIcon("Images/ChillCat.jpg");
     private int width;
     private int height;
 
+
     // MODIFIES: this
     // EFFECTS: sets up a card that has a value and a suit
-    public Card(int value, int suit, int width, int height, ImageIcon img) {
+    public Card(int value, int suit, int width, int height, ImageIcon cardFront) {
         this.value = value;
         this.suit = suit;
         this.flipped = 0;
-        this.img = img;
+        this.cardFront = cardFront;
         this.width = width;
         this.height = height;
     }
@@ -61,7 +63,11 @@ public class Card {
         return height;
     }
 
-    public ImageIcon getImg() {
-        return img;
+    public ImageIcon getCardImage() {
+        if (this.flipped == 0) {
+            return cardBack;
+        } else {
+            return cardFront;
+        }
     }
 }
