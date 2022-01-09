@@ -1,5 +1,6 @@
 package Model;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,23 +14,25 @@ public class Board {
     public int countColumn = 0;
 
     // Initializes board size
-    public Board(int difficulty) {
-        deck = new Deck();
-        if (difficulty == 0) {
-            board = new Card[2][4]; // 8 Cards
-            this.difficulty = 0;
-            countRow = 2;
-            countColumn = 4;
-        } else if (difficulty == 1) {
-            board = new Card[4][8]; // 32 Cards
-            this.difficulty = 1;
-            countRow = 4;
-            countColumn = 8;
-        } else {
-            board = new Card[6][12]; // 72 Cards
-            this.difficulty = 2;
-            countRow = 6;
-            countColumn = 12;
+    public Board(int difficulty, int width, int height) {
+        deck = new Deck(width, height);
+        switch (difficulty) {
+            case 0:
+                board = new Card[4][2]; // 8 Cards
+                this.difficulty = 0;
+                countRow = 2;
+                countColumn = 4;
+            case 1:
+                board = new Card[8][4]; // 32 Cards
+                this.difficulty = 1;
+                countRow = 4;
+                countColumn = 8;
+            case 2:
+                board = new Card[12][6]; // 72 Cards
+                this.difficulty = 2;
+                countRow = 6;
+                countColumn = 12;
+            default:
         }
     }
 
@@ -53,28 +56,30 @@ public class Board {
     }
 
     // Resets board for new game
-    public void refreshBoard(int difficulty) {
-        deck.refreshDeck();
-        if (difficulty == 0) {
-            board = new Card[2][4]; // 8 Cards
-            this.difficulty = 0;
-            countRow = 2;
-            countColumn = 4;
-        } else if (difficulty == 1) {
-            board = new Card[4][8]; // 32 Cards
-            this.difficulty = 1;
-            countRow = 4;
-            countColumn = 8;
-        } else {
-            board = new Card[6][12]; // 72 Cards
-            this.difficulty = 2;
-            countRow = 6;
-            countColumn = 12;
+    public void refreshBoard(int difficulty, int width, int height) {
+        deck.refreshDeck(width, height);
+        switch (difficulty) {
+            case 0:
+                board = new Card[4][2]; // 8 Cards
+                this.difficulty = 0;
+                countRow = 2;
+                countColumn = 4;
+            case 1:
+                board = new Card[8][4]; // 32 Cards
+                this.difficulty = 1;
+                countRow = 4;
+                countColumn = 8;
+            case 2:
+                board = new Card[12][6]; // 72 Cards
+                this.difficulty = 2;
+                countRow = 6;
+                countColumn = 12;
+            default:
         }
     }
 
-    public Card getCardAtPos(int row, int column) {
-        return board[row][column];
+    public Card getCardAtPos(int column, int row) {
+        return board[column][row];
     }
 
     public int getWidth() {

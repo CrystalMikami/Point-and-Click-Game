@@ -15,9 +15,9 @@ public class BoardTest {
 
     @BeforeEach
     public void setup() {
-        testBoardEasy = new Board(1);
-        testBoardMedium = new Board(2);
-        testBoardHard = new Board(3);
+        testBoardEasy = new Board(1, 0, 0);
+        testBoardMedium = new Board(2, 0, 0);
+        testBoardHard = new Board(3, 0, 0);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class BoardTest {
     public void testRefreshBoard() {
         testBoardEasy.addCards();
 
-        testBoardEasy.refreshBoard(1);
+        testBoardEasy.refreshBoard(1, 0, 0);
 
         assertEquals(2, testBoardEasy.countRow);
         assertEquals(4, testBoardEasy.countColumn);
@@ -50,7 +50,7 @@ public class BoardTest {
 
         testBoardEasy.addCards();
 
-        testBoardEasy.refreshBoard(3);
+        testBoardEasy.refreshBoard(3, 0, 0);
 
         assertEquals(6, testBoardEasy.countRow);
         assertEquals(12, testBoardEasy.countColumn);

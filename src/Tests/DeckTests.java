@@ -16,8 +16,8 @@ public class DeckTests {
     private Deck testDeckTwo;
     @BeforeEach
     public void setup() {
-        testDeckOne = new Deck();
-        testDeckTwo = new Deck();
+        testDeckOne = new Deck(0, 0);
+        testDeckTwo = new Deck(0, 0);
     }
 
     @Test
@@ -32,10 +32,10 @@ public class DeckTests {
 
     @Test
     public void testRefreshDeckOne() {
-        testDeckOne.refreshDeck();
+        testDeckOne.refreshDeck(0, 0);
         testDeckTwo.drawCard();
         testDeckTwo.drawCard();
-        testDeckTwo.refreshDeck();
+        testDeckTwo.refreshDeck(0, 0);
         assertEquals(testDeckOne.getCardList().size(), testDeckTwo.getCardList().size());
     }
 }

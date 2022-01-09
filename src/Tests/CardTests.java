@@ -13,8 +13,8 @@ public class CardTests {
 
     @BeforeEach
     public void setup() {
-        testCardOne = new Card(1, 1);
-        testCardTwo = new Card(3, 4);
+        testCardOne = new Card(1, 1, 0, 0, null);
+        testCardTwo = new Card(3, 4, 0, 0, null);
     }
 
     @Test
