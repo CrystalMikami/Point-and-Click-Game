@@ -43,13 +43,20 @@ public class GUI {
     private final int INSTRUCTIONS_BUTTON_WIDTH = ((FRAME_WIDTH - 2 * INSTRUCTIONS_MARGIN) - (2 * INSTRUCTIONS_BUTTON_MARGIN)) / 3; // (Space available - # horizontal gaps between buttons) / number of buttons
     private final int INSTRUCTIONS_BUTTON_HEIGHT = (FRAME_HEIGHT / 6) - (2 * INSTRUCTIONS_BUTTON_MARGIN); // (Space available - vertical gap)
 
+    // Game Constants
+    private final int GAME_MENU_TEXT_WIDTH = 300;
+    private final int GAME_MENU_TEXT_HEIGHT = SOUND_BUTTON_HEIGHT;
+
     /** Global Elements **/
     // Sound Button
     private JButton soundButton;
     private int soundMute = 0;
+    private File file;
+    private AudioInputStream audioStream;
+    private Clip clip;
+    private FloatControl volume;
     private ImageIcon soundOn = new ImageIcon("Images/myCat.JPG");
     private ImageIcon soundOff = new ImageIcon("Images/ChillCat.JPG");
-    BooleanControl muteControl;
 
     /** Menu **/
     JPanel menuContainer;
@@ -105,6 +112,11 @@ public class GUI {
     JPanel buttons;
     JPanel title;
 
+    // Game Panels
+    JPanel game;
+    JPanel gameContainer;
+    JButton gameMenu;
+
     public GUI() {
         // JFrame
         JFrame myFrame = new JFrame();
@@ -120,13 +132,12 @@ public class GUI {
         soundButton.setIcon(soundOn);
         soundButton.setBounds(SOUND_BUTTON_HGAP, SOUND_BUTTON_VGAP, SOUND_BUTTON_WIDTH, SOUND_BUTTON_HEIGHT);
         try {
-            File file = new File("Music/ncmcozy.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
+            file = new File("Music/ncmcozy.wav");
+            audioStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
-            muteControl.setValue(false);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (FileNotFoundException f) {
             System.out.println("file not found");
         } catch (IOException f) {
@@ -143,12 +154,14 @@ public class GUI {
                     // Turn sound off
                     soundMute = 1;
                     soundButton.setIcon(soundOff);
-                    muteControl.setValue(true);
+                    volume = (FloatControl) clip.getControl((FloatControl.Type.MASTER_GAIN));
+                    volume.setValue(-80.0f);
                 } else {
                     // Turn sound on
                     soundMute = 0;
                     soundButton.setIcon(soundOn);
-                    muteControl.setValue(false);
+                    clip.start();
+                    volume.setValue(0.0f);
                 }
             }
         });
@@ -194,84 +207,6 @@ public class GUI {
         menuButtonsPanel.add(instructionsButton);
 
         cards.add(menuContainer, "menu");
-
-        /** Difficulty **/
-        chooseDiffText = new JLabel("Choose your difficulty");
-        chooseDiffText.setHorizontalAlignment(SwingConstants.CENTER);
-        chooseDiffText.setFont(new Font("Times New Roman", Font.BOLD, 42));
-        chooseDiffText.setBackground(Color.cyan);
-        chooseDiffText.setOpaque(true);
-        chooseDiffText.setBounds(FRAME_WIDTH / 2 - DIFF_TEXT_WIDTH / 2, DIFF_TEXT_Y_POS, DIFF_TEXT_WIDTH, DIFF_TEXT_HEIGHT);
-
-        easyIcon = new ImageIcon("Images/myCat.JPG");
-        imageContainerEasy = new JLabel(easyIcon);
-        imageContainerEasy.setVisible(true);
-        imageContainerEasy.setBounds(FRAME_WIDTH / 4 - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
-
-        mediumIcon = new ImageIcon("Images/myCat.JPG");
-        imageContainerMedium = new JLabel(mediumIcon);
-        imageContainerMedium.setVisible(true);
-        imageContainerMedium.setBounds(FRAME_WIDTH / 2 - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
-
-        hardIcon = new ImageIcon("Images/myCat.JPG");
-        imageContainerHard = new JLabel(hardIcon);
-        imageContainerHard.setVisible(true);
-        imageContainerHard.setBounds((3 * FRAME_WIDTH / 4) - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
-
-        easyButton = new JButton("Easy");
-        easyButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
-        easyButton.setBounds(FRAME_WIDTH / 4 - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
-        easyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        mediumButton = new JButton("Medium");
-        mediumButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
-        mediumButton.setBounds(FRAME_WIDTH / 2 - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
-        mediumButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        hardButton = new JButton("Hard");
-        hardButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
-        hardButton.setBounds((3 * FRAME_WIDTH / 4) - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
-        hardButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        menuButton = new JButton("Back to Menu");
-        menuButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
-        menuButton.setBounds(FRAME_WIDTH / 2 - MENU_BUTTON_WIDTH / 2, 5 * FRAME_HEIGHT / 6, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                menuContainer.add(soundButton);
-                cardLayout.show(cards, "menu");
-            }
-        });
-
-        diffContainer = new JPanel(null);
-        diffContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        diffContainer.setVisible(true);
-        diffContainer.add(chooseDiffText);
-        diffContainer.add(imageContainerEasy);
-        diffContainer.add(imageContainerMedium);
-        diffContainer.add(imageContainerHard);
-        diffContainer.add(easyButton);
-        diffContainer.add(mediumButton);
-        diffContainer.add(hardButton);
-        diffContainer.add(menuButton);
-
-        cards.add(diffContainer, "difficulty");
 
         /** Instructions **/
         // Title
@@ -386,15 +321,120 @@ public class GUI {
 
         cards.add(instructionsContainer, "instructions");
 
-        Container pane = myFrame.getContentPane();
-        pane.add(cards, BorderLayout.CENTER);
+
 
         // View proportions, colour coded
-        //title.setBackground(Color.red);
-        //img.setBackground(Color.yellow);
-        //text.setBackground(Color.green);
-        //buttons.setBackground(Color.cyan);
+        // title.setBackground(Color.red);
+        // img.setBackground(Color.yellow);
+        // text.setBackground(Color.green);
+        // buttons.setBackground(Color.cyan);
         // end of instructions
+
+        /** Game **/
+        game = new JPanel(null);
+        game.setVisible(true);
+        gameMenu = new JButton("Back to Menu");
+        gameMenu.setVisible(true);
+        gameMenu.setBounds(FRAME_WIDTH - (SOUND_BUTTON_HGAP + GAME_MENU_TEXT_WIDTH + 15), SOUND_BUTTON_VGAP, GAME_MENU_TEXT_WIDTH, GAME_MENU_TEXT_HEIGHT);
+        gameMenu.setFont(new Font("Times New Roman", Font.BOLD, 26));
+        gameMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuContainer.add(soundButton);
+                cardLayout.show(cards, "menu");
+            }
+        });
+        gameContainer = new JPanel(null);
+        gameContainer.setVisible(true);
+        gameContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        gameContainer.add(game);
+        gameContainer.add(gameMenu);
+
+        cards.add(gameContainer, "game");
+
+        /** Difficulty **/
+        chooseDiffText = new JLabel("Choose your difficulty");
+        chooseDiffText.setHorizontalAlignment(SwingConstants.CENTER);
+        chooseDiffText.setFont(new Font("Times New Roman", Font.BOLD, 42));
+        chooseDiffText.setBackground(Color.cyan);
+        chooseDiffText.setOpaque(true);
+        chooseDiffText.setBounds(FRAME_WIDTH / 2 - DIFF_TEXT_WIDTH / 2, DIFF_TEXT_Y_POS, DIFF_TEXT_WIDTH, DIFF_TEXT_HEIGHT);
+
+        easyIcon = new ImageIcon("Images/myCat.JPG");
+        imageContainerEasy = new JLabel(easyIcon);
+        imageContainerEasy.setVisible(true);
+        imageContainerEasy.setBounds(FRAME_WIDTH / 4 - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
+
+        mediumIcon = new ImageIcon("Images/myCat.JPG");
+        imageContainerMedium = new JLabel(mediumIcon);
+        imageContainerMedium.setVisible(true);
+        imageContainerMedium.setBounds(FRAME_WIDTH / 2 - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
+
+        hardIcon = new ImageIcon("Images/myCat.JPG");
+        imageContainerHard = new JLabel(hardIcon);
+        imageContainerHard.setVisible(true);
+        imageContainerHard.setBounds((3 * FRAME_WIDTH / 4) - DIFF_IMAGE_WIDTH / 2, DIFF_IMAGE_Y_POS, DIFF_IMAGE_WIDTH, DIFF_IMAGE_HEIGHT);
+
+        easyButton = new JButton("Easy");
+        easyButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
+        easyButton.setBounds(FRAME_WIDTH / 4 - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
+        easyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameContainer.add(soundButton);
+                cardLayout.show(cards, "game");
+            }
+        });
+
+        mediumButton = new JButton("Medium");
+        mediumButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
+        mediumButton.setBounds(FRAME_WIDTH / 2 - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
+        mediumButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameContainer.add(soundButton);
+                cardLayout.show(cards, "game");
+            }
+        });
+
+        hardButton = new JButton("Hard");
+        hardButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
+        hardButton.setBounds((3 * FRAME_WIDTH / 4) - DIFF_BUTTON_WIDTH / 2, 2 * FRAME_HEIGHT / 3, DIFF_BUTTON_WIDTH, DIFF_BUTTON_HEIGHT);
+        hardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameContainer.add(soundButton);
+                cardLayout.show(cards, "game");
+            }
+        });
+
+        menuButton = new JButton("Back to Menu");
+        menuButton.setFont(new Font("Times New Roman", Font.BOLD, 26));
+        menuButton.setBounds(FRAME_WIDTH / 2 - MENU_BUTTON_WIDTH / 2, 5 * FRAME_HEIGHT / 6, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuContainer.add(soundButton);
+                cardLayout.show(cards, "menu");
+            }
+        });
+
+        diffContainer = new JPanel(null);
+        diffContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        diffContainer.setVisible(true);
+        diffContainer.add(chooseDiffText);
+        diffContainer.add(imageContainerEasy);
+        diffContainer.add(imageContainerMedium);
+        diffContainer.add(imageContainerHard);
+        diffContainer.add(easyButton);
+        diffContainer.add(mediumButton);
+        diffContainer.add(hardButton);
+        diffContainer.add(menuButton);
+
+        cards.add(diffContainer, "difficulty");
+
+        Container pane = myFrame.getContentPane();
+        pane.add(cards, BorderLayout.CENTER);
     }
 }
 
