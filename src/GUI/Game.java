@@ -57,7 +57,6 @@ public class Game {
                 gamePanel.remove(cardButton);
             }
         }
-        gamePanel.invalidate();
         gamePanel.revalidate();
         gamePanel.repaint();
     }
