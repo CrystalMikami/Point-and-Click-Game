@@ -17,7 +17,7 @@ public class Deck {
     public Deck(int width, int height) {
         for(int i = 1; i <= 13; i++) {
             for(int j = 1; j <= 4; j++) {
-                Card currCard = new Card(i, j, width, height, img[width][height]);
+                Card currCard = new Card(i, j, width, height, img[j - 1][i - 1]);
                 cardList.add(currCard);
             }
         }
@@ -40,7 +40,7 @@ public class Deck {
         cardList.clear();
         for(int i = 1; i <= 13; i++) {
             for(int j = 1; j <= 4; j++) {
-                Card currCard = new Card(i, j, width, height, img[width][height]);
+                Card currCard = new Card(i, j, width, height, img[j - 1][i - 1]);
                 cardList.add(currCard);
             }
         }
