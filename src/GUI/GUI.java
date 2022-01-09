@@ -446,8 +446,11 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuContainer.add(soundButton);
-                cardLayout.show(cards, "menu");
+
                 game.refreshBoard();
+
+                cardLayout.show(cards, "menu");
+
             }
         });
 
