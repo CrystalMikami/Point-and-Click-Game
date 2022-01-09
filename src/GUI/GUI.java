@@ -60,21 +60,21 @@ public class GUI {
 
     /** Menu **/
     JPanel menuContainer;
-    // buttons below title: play, instructions
+    // Buttons below title: play, instructions
     private JButton playButton;
     private JButton instructionsButton;
     Font menuButtonsFont = new Font("Times New Roman", Font.PLAIN, 35);
 
-    // panel to hold the above buttons in an organized layout
+    // Panel to hold the above buttons in an organized layout
     private JPanel menuButtonsPanel;
 
-    // game title
+    // Game title
     private JLabel menuTitle;
     Font menuTitleFont = new Font("Times New Roman", Font.BOLD, 80);
 
     /** Difficulty **/
+    private int difficulty;
     JPanel diffContainer;
-
     JLabel chooseDiffText;
 
     ImageIcon easyIcon;
@@ -87,7 +87,6 @@ public class GUI {
     JButton easyButton;
     JButton mediumButton;
     JButton hardButton;
-
     JButton menuButton;
 
     /** Instructions **/
@@ -112,8 +111,9 @@ public class GUI {
     JPanel buttons;
     JPanel title;
 
-    // Game Panels
-    JPanel game;
+    /** Game **/
+    Game game;
+    JPanel gamePanel;
     JPanel gameContainer;
     JButton gameMenu;
 
@@ -321,8 +321,6 @@ public class GUI {
 
         cards.add(instructionsContainer, "instructions");
 
-
-
         // View proportions, colour coded
         // title.setBackground(Color.red);
         // img.setBackground(Color.yellow);
@@ -331,8 +329,12 @@ public class GUI {
         // end of instructions
 
         /** Game **/
-        game = new JPanel(null);
-        game.setVisible(true);
+        gamePanel = new JPanel(null);
+        gamePanel.setVisible(true);
+// TODO: Set game panel size, add banner at top
+
+        game = new Game(gamePanel, cardLayout);
+
         gameMenu = new JButton("Back to Menu");
         gameMenu.setVisible(true);
         gameMenu.setBounds(FRAME_WIDTH - (SOUND_BUTTON_HGAP + GAME_MENU_TEXT_WIDTH + 15), SOUND_BUTTON_VGAP, GAME_MENU_TEXT_WIDTH, GAME_MENU_TEXT_HEIGHT);
@@ -344,10 +346,11 @@ public class GUI {
                 cardLayout.show(cards, "menu");
             }
         });
+
         gameContainer = new JPanel(null);
         gameContainer.setVisible(true);
         gameContainer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        gameContainer.add(game);
+        gameContainer.add(gamePanel);
         gameContainer.add(gameMenu);
 
         cards.add(gameContainer, "game");
@@ -382,6 +385,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
+                difficulty = 0;
                 cardLayout.show(cards, "game");
             }
         });
@@ -393,6 +397,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
+                difficulty = 1;
                 cardLayout.show(cards, "game");
             }
         });
@@ -404,6 +409,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameContainer.add(soundButton);
+                difficulty = 2;
                 cardLayout.show(cards, "game");
             }
         });
